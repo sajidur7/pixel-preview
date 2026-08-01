@@ -1,11 +1,44 @@
-@import "tailwindcss";
+@layer reset, theme, base, astryx-base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "@astryxdesign/core/reset.css";
+@import "@astryxdesign/core/astryx.css";
+@import "@astryxdesign/core/tailwind-theme.css";
+@import "tailwindcss/utilities.css" layer(utilities);
 
 :root {
-  --ink: #161b1d;
-  --muted: #677174;
-  --paper: #f5f4ef;
-  --line: #dcded9;
-  --acid: #d7ff46;
+  --pp-bg: #07080c;
+  --pp-surface: #0d0f16;
+  --pp-surface-raised: #121520;
+  --pp-surface-glass: rgba(15, 18, 28, 0.78);
+  --pp-text: #f6f7fb;
+  --pp-text-muted: #9299aa;
+  --pp-text-dim: #626979;
+  --pp-line: rgba(255, 255, 255, 0.11);
+  --pp-line-strong: rgba(255, 255, 255, 0.2);
+  --pp-blue: #4c7dff;
+  --pp-blue-bright: #7da2ff;
+  --pp-violet: #8a5cff;
+  --pp-focus: #9ab4ff;
+  --pp-error: #ff718b;
+  --pp-radius-sm: 0.5rem;
+  --pp-radius-md: 0.875rem;
+  --pp-radius-lg: 1.25rem;
+  --pp-space-unit: 0.25rem;
+  --pp-shadow-card: 0 28px 70px rgba(0, 0, 0, 0.32);
+  --pp-shadow-glow: 0 0 42px rgba(76, 125, 255, 0.14);
+
+  /* Astryx-compatible semantic tokens used by its CSS foundation. */
+  --color-text-primary: var(--pp-text);
+  --color-text-secondary: var(--pp-text-muted);
+  --color-background-body: var(--pp-bg);
+  --color-background-surface: var(--pp-surface);
+  --color-background-card: var(--pp-surface-raised);
+  --color-border: var(--pp-line);
+  --color-border-emphasized: var(--pp-line-strong);
+  --color-accent: var(--pp-blue);
+  --color-on-accent: #ffffff;
 }
 
 @theme inline {
@@ -15,30 +48,70 @@
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  background: var(--pp-bg);
+}
 
 body {
   margin: 0;
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--pp-bg);
+  color: var(--pp-text);
   font-family: var(--font-body), sans-serif;
 }
 
 button, input, select { font: inherit; }
-
 button, label { -webkit-tap-highlight-color: transparent; }
 
-::selection { background: var(--acid); color: var(--ink); }
+::selection { background: var(--pp-blue); color: #fff; }
 
 .grid-noise {
+  position: relative;
+  isolation: isolate;
   background-image:
-    linear-gradient(rgba(22, 27, 29, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(22, 27, 29, 0.035) 1px, transparent 1px);
-  background-size: 32px 32px;
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 42px 42px;
 }
 
-.preview-shadow { box-shadow: 0 16px 40px rgba(26, 31, 32, 0.1); }
+.grid-noise::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 72% 32%, rgba(76, 125, 255, 0.16), transparent 28%),
+    radial-gradient(circle at 42% 5%, rgba(138, 92, 255, 0.1), transparent 24%);
+}
+
+.preview-shadow {
+  box-shadow: var(--pp-shadow-card);
+  transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+
+.preview-shadow:hover {
+  border-color: rgba(125, 162, 255, 0.35);
+  box-shadow: var(--pp-shadow-card), var(--pp-shadow-glow);
+  transform: translateY(-2px);
+}
+
+.tech-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--pp-focus);
+  outline-offset: 3px;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    transform: none !important;
+  }
 }

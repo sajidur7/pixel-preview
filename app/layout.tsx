@@ -14,11 +14,11 @@ const body = DM_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: "Social Image Preview",
-    template: "%s · Social Image Preview",
+    default: "Pixel-Preview",
+    template: "%s · Pixel-Preview",
   },
   description:
-    "See how your image will crop across nine social platforms before you post.",
+    "Preview every social image crop from one private, browser-based workspace.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
