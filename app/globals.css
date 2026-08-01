@@ -95,10 +95,16 @@ button, label { -webkit-tap-highlight-color: transparent; }
 }
 
 /* Subtle matrix lines clarify platform groups and individual placements. */
+.platform-matrix {
+  border-top: 1px solid var(--pp-line);
+  border-right: 1px solid var(--pp-line);
+  border-left: 1px solid var(--pp-line);
+}
+
 .platform-row {
   display: grid;
   gap: 2rem;
-  border-top: 1px solid var(--pp-line);
+  border-bottom: 1px solid var(--pp-line);
   padding-block: 3rem;
 }
 
@@ -148,11 +154,11 @@ button, label { -webkit-tap-highlight-color: transparent; }
   .platform-meta {
     border-right: 1px solid var(--pp-line);
     border-bottom: 0;
-    padding: 3rem 2.5rem 3rem 0;
+    padding: 3rem 2.5rem;
   }
 
   .placement-grid {
-    padding-left: 1.5rem;
+    min-width: 0;
   }
 
   .placement-grid > article {
