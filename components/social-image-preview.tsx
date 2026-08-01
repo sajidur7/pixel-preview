@@ -121,7 +121,7 @@ export function SocialImagePreview() {
       <header className="border-b border-[var(--pp-line)] bg-[rgba(255,255,255,0.94)] backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1200px] items-center justify-between px-5 py-5 sm:px-8">
           <a href="#top" className="focus-ring rounded-sm font-display text-xl font-extrabold tracking-[-0.04em]">Pixel-Preview</a>
-          <span className="tech-label hidden items-center gap-2 text-[var(--pp-text-muted)] sm:flex"><span className="size-2 rounded-full bg-[var(--pp-blue)]" /> Designed by Shimul</span>
+          <span className="tech-label hidden items-center gap-2 text-[var(--pp-text-muted)] sm:flex"><span className="size-2 rounded-full bg-[var(--pp-blue)]" /> Created by Shimul</span>
         </div>
       </header>
 
@@ -229,7 +229,7 @@ export function SocialImagePreview() {
       </section>
 
       <footer className="mt-16 bg-[var(--pp-surface)] px-5 py-10 text-sm text-[var(--pp-text-muted)] sm:px-8 lg:px-12">
-        <div className="mx-auto flex max-w-[1136px] flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><strong className="font-display text-[var(--pp-text)]">Pixel-Preview</strong><span className="tech-label text-[var(--pp-text-muted)]">Designed by Shimul</span></div>
+        <div className="mx-auto flex max-w-[1136px] flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><strong className="font-display text-[var(--pp-text)]">Pixel-Preview</strong><span className="tech-label text-[var(--pp-text-muted)]">Created by Shimul</span></div>
       </footer>
     </main>
   );
