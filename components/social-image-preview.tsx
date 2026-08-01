@@ -201,13 +201,13 @@ export function SocialImagePreview() {
         <div className="platform-matrix">
           {visiblePlatforms.map((platform, index) => (
             <section key={platform.id} aria-labelledby={`${platform.id}-heading`} className="platform-row">
-              <div className="platform-meta lg:sticky lg:top-32 lg:self-start">
+              <div className="platform-meta">
                 <PlatformIcon id={platform.id} name={platform.name} color={platform.color} />
                 <p className="tech-label text-[var(--pp-text-dim)]">Channel / {String(index + 1).padStart(2, "0")}</p>
                 <h2 id={`${platform.id}-heading`} className="font-display mt-2 text-3xl font-semibold tracking-[-0.05em] text-[var(--pp-text)]">{platform.name}</h2>
                 <p className="mt-2 font-mono text-xs text-[var(--pp-text-muted)]">{String(platform.placements.length).padStart(2, "0")} {platform.placements.length === 1 ? "PREVIEW" : "PREVIEWS"}</p>
               </div>
-              <div className={`placement-grid grid items-start ${platform.placements.length === 1 ? "max-w-md grid-cols-1" : "sm:grid-cols-2 xl:grid-cols-3"}`}>
+              <div className={`placement-grid grid items-stretch ${platform.placements.length === 1 ? "max-w-md grid-cols-1" : "sm:grid-cols-2 xl:grid-cols-3"}`}>
                 {platform.placements.map((placement) => {
                   const override = imageOverrides[placement.id];
                   return (

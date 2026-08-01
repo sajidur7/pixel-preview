@@ -109,11 +109,13 @@ button, label { -webkit-tap-highlight-color: transparent; }
 }
 
 .platform-meta {
+  height: 100%;
   border-bottom: 1px solid var(--pp-line);
   padding-bottom: 2rem;
 }
 
 .placement-grid > article {
+  height: 100%;
   border-top: 1px solid var(--pp-line);
   padding-block: 2rem;
 }
