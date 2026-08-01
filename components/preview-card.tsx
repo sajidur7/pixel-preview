@@ -48,8 +48,12 @@ export function PreviewCard({
             {/* A blob URL is required for a user-selected local file. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={imageUrl} alt={`${placement.label} crop preview`} className="h-full w-full object-cover" />
-            <span className="absolute left-3 top-3 rounded-full bg-black/65 px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-[0.1em] text-white backdrop-blur-sm">
-              {hasOverride ? "Custom" : "Universal"}
+            <span
+              className="absolute left-3 top-3 grid size-7 place-items-center rounded-full bg-black/65 text-[0.65rem] font-extrabold text-white backdrop-blur-sm"
+              aria-label={hasOverride ? "Custom image" : "Universal image"}
+              title={hasOverride ? "Custom image" : "Universal image"}
+            >
+              {hasOverride ? "C" : "U"}
             </span>
           </>
         ) : (
