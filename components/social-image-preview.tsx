@@ -128,7 +128,7 @@ export function SocialImagePreview() {
       <section id="top" className="grid-noise">
         <div className="mx-auto grid min-h-[660px] max-w-[1200px] gap-14 px-5 py-16 sm:px-8 sm:py-24 lg:grid-cols-[minmax(0,1.15fr)_minmax(390px,0.85fr)] lg:items-center lg:py-28">
           <div>
-            <p className="tech-label mb-7 flex items-center gap-3 text-[var(--pp-blue-bright)]"><span className="h-px w-10 bg-[var(--pp-blue)]" /> Cross-platform imaging system / 01</p>
+            <p className="tech-label mb-7 flex items-center gap-3 text-[var(--pp-blue-bright)]"><span className="h-px w-10 bg-[var(--pp-blue)]" /> See it before you post</p>
             <h1 className="font-display max-w-5xl text-[clamp(3.6rem,8vw,7rem)] font-semibold leading-[0.9] tracking-[-0.055em] text-[var(--pp-text)]">One image.<br /><span className="text-[var(--pp-blue)]">Every frame.</span></h1>
             <p className="mt-9 max-w-2xl text-base leading-7 text-[var(--pp-text-muted)] sm:text-xl sm:leading-8">See exactly how your image lands across profiles, banners, posts, and stories—before the world does.</p>
             <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3">
