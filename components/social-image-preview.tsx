@@ -3,6 +3,7 @@
 import { ChangeEvent, DragEvent, useEffect, useMemo, useRef, useState } from "react";
 import { placementCategories, placementLabels, platforms, type PlacementCategory } from "@/lib/platforms";
 import { PreviewCard } from "./preview-card";
+import { PlatformIcon } from "./platform-icon";
 
 type UploadedImage = { url: string; name: string; width: number; height: number };
 
@@ -10,13 +11,21 @@ const acceptedTypes = new Set(["image/jpeg", "image/png", "image/webp"]);
 
 export function SocialImagePreview() {
   const [image, setImage] = useState<UploadedImage | null>(null);
+  const [imageOverrides, setImageOverrides] = useState<Record<string, UploadedImage>>({});
   const [platformFilter, setPlatformFilter] = useState("all");
   const [placementFilter, setPlacementFilter] = useState<PlacementCategory | "all">("all");
   const [error, setError] = useState("");
   const [isDragging, setIsDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const imageRef = useRef<UploadedImage | null>(null);
+  const overridesRef = useRef<Record<string, UploadedImage>>({});
 
-  useEffect(() => () => { if (image) URL.revokeObjectURL(image.url); }, [image]);
+  useEffect(() => { imageRef.current = image; }, [image]);
+  useEffect(() => { overridesRef.current = imageOverrides; }, [imageOverrides]);
+  useEffect(() => () => {
+    if (imageRef.current) URL.revokeObjectURL(imageRef.current.url);
+    Object.values(overridesRef.current).forEach((item) => URL.revokeObjectURL(item.url));
+  }, []);
 
   const loadImage = (file?: File) => {
     if (!file) return;
@@ -40,6 +49,40 @@ export function SocialImagePreview() {
     probe.src = url;
   };
 
+  const loadOverrideImage = (placementId: string, file?: File) => {
+    if (!file) return;
+    if (!acceptedTypes.has(file.type)) {
+      setError("Choose a JPG, PNG, or WebP image.");
+      return;
+    }
+    const url = URL.createObjectURL(file);
+    const probe = new Image();
+    probe.onload = () => {
+      setImageOverrides((current) => {
+        const existing = current[placementId];
+        if (existing) URL.revokeObjectURL(existing.url);
+        return { ...current, [placementId]: { url, name: file.name, width: probe.naturalWidth, height: probe.naturalHeight } };
+      });
+      setError("");
+    };
+    probe.onerror = () => {
+      URL.revokeObjectURL(url);
+      setError("That image could not be read. Try another file.");
+    };
+    probe.src = url;
+  };
+
+  const removeOverride = (placementId: string) => {
+    setImageOverrides((current) => {
+      const existing = current[placementId];
+      if (!existing) return current;
+      URL.revokeObjectURL(existing.url);
+      const next = { ...current };
+      delete next[placementId];
+      return next;
+    });
+  };
+
   const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     loadImage(event.target.files?.[0]);
     event.target.value = "";
@@ -55,6 +98,10 @@ export function SocialImagePreview() {
     setImage((current) => {
       if (current) URL.revokeObjectURL(current.url);
       return null;
+    });
+    setImageOverrides((current) => {
+      Object.values(current).forEach((item) => URL.revokeObjectURL(item.url));
+      return {};
     });
     setError("");
   };
@@ -114,7 +161,7 @@ export function SocialImagePreview() {
               )}
             </label>
             {error && <p role="alert" className="px-3 pt-3 text-sm font-semibold text-red-600">{error}</p>}
-            {image && <button type="button" onClick={resetImage} className="mt-3 w-full rounded-xl py-3 text-sm font-bold text-[#596366] transition hover:bg-[#f0f1ec]">Reset image</button>}
+            {(image || Object.keys(imageOverrides).length > 0) && <button type="button" onClick={resetImage} className="mt-3 w-full rounded-xl py-3 text-sm font-bold text-[#596366] transition hover:bg-[#f0f1ec]">Reset all images</button>}
           </div>
         </div>
       </section>
@@ -149,13 +196,26 @@ export function SocialImagePreview() {
           {visiblePlatforms.map((platform, index) => (
             <section key={platform.id} aria-labelledby={`${platform.id}-heading`} className="grid gap-7 lg:grid-cols-[220px_1fr] lg:gap-12">
               <div className="lg:sticky lg:top-32 lg:self-start">
-                <span className="mb-5 grid size-12 place-items-center rounded-2xl text-sm font-black text-white" style={{ backgroundColor: platform.color }}>{platform.mark}</span>
+                <PlatformIcon id={platform.id} name={platform.name} color={platform.color} />
                 <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#8a9294]">{String(index + 1).padStart(2, "0")}</p>
                 <h2 id={`${platform.id}-heading`} className="font-display mt-1 text-3xl font-extrabold tracking-[-0.05em]">{platform.name}</h2>
                 <p className="mt-2 text-sm text-[#687174]">{platform.placements.length} {platform.placements.length === 1 ? "preview" : "previews"}</p>
               </div>
               <div className={`grid items-start gap-x-6 gap-y-10 ${platform.placements.length === 1 ? "max-w-md grid-cols-1" : "sm:grid-cols-2 xl:grid-cols-3"}`}>
-                {platform.placements.map((placement) => <PreviewCard key={placement.id} placement={placement} imageUrl={image?.url ?? null} />)}
+                {platform.placements.map((placement) => {
+                  const override = imageOverrides[placement.id];
+                  return (
+                    <PreviewCard
+                      key={placement.id}
+                      placement={placement}
+                      imageUrl={override?.url ?? image?.url ?? null}
+                      hasUniversalImage={Boolean(image)}
+                      hasOverride={Boolean(override)}
+                      onSelectImage={(file) => loadOverrideImage(placement.id, file)}
+                      onUseUniversal={() => removeOverride(placement.id)}
+                    />
+                  );
+                })}
               </div>
             </section>
           ))}
