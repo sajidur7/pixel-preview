@@ -125,23 +125,23 @@ export function SocialImagePreview() {
         </div>
       </header>
 
-      <section id="top" className="grid-noise border-b border-[var(--pp-line)]">
+      <section id="top" className="grid-noise">
         <div className="mx-auto grid min-h-[660px] max-w-[1200px] gap-14 px-5 py-16 sm:px-8 sm:py-24 lg:grid-cols-[minmax(0,1.15fr)_minmax(390px,0.85fr)] lg:items-center lg:py-28">
           <div>
             <p className="tech-label mb-7 flex items-center gap-3 text-[var(--pp-blue-bright)]"><span className="h-px w-10 bg-[var(--pp-blue)]" /> Cross-platform imaging system / 01</p>
             <h1 className="font-display max-w-5xl text-[clamp(3.6rem,8vw,7rem)] font-semibold leading-[0.9] tracking-[-0.055em] text-[var(--pp-text)]">One image.<br /><span className="text-[var(--pp-blue)]">Every frame.</span></h1>
             <p className="mt-9 max-w-2xl text-base leading-7 text-[var(--pp-text-muted)] sm:text-xl sm:leading-8">See exactly how your image lands across profiles, banners, posts, and stories—before the world does.</p>
-            <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 border-t border-[var(--pp-line)] pt-5">
+            <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3">
               <span className="tech-label text-[var(--pp-text-muted)]"><b className="mr-2 text-[var(--pp-text)]">09</b>Platforms</span>
               <span className="tech-label text-[var(--pp-text-muted)]"><b className="mr-2 text-[var(--pp-text)]">26</b>Placements</span>
               <span className="tech-label text-[var(--pp-text-muted)]"><b className="mr-2 text-[var(--pp-text)]">100%</b>Private</span>
             </div>
           </div>
 
-          <div className="relative rounded-[2rem] border border-[var(--pp-line)] bg-[var(--pp-surface-glass)] p-3 shadow-[var(--pp-shadow-card)] backdrop-blur-xl sm:p-4">
+          <div className="relative rounded-[2rem] bg-[var(--pp-surface-glass)] p-3 shadow-[0_8px_30px_rgba(10,13,20,0.07)] backdrop-blur-xl sm:p-4">
             <span className="tech-label absolute -top-8 left-0 text-[var(--pp-text-dim)]">Universal source</span>
             <label
-              className={`focus-within:ring-2 focus-within:ring-[var(--pp-focus)] flex min-h-80 cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed px-6 text-center transition ${isDragging ? "border-[var(--pp-blue)] bg-[#eef8fe]" : image ? "border-[var(--pp-line-strong)] bg-[var(--pp-surface)]" : "border-[var(--pp-line-strong)] bg-[var(--pp-surface)] hover:border-[var(--pp-blue)] hover:bg-[#f2f9fd]"}`}
+              className={`focus-within:ring-2 focus-within:ring-[var(--pp-focus)] flex min-h-80 cursor-pointer flex-col items-center justify-center rounded-2xl px-6 text-center transition ${isDragging ? "bg-[#eef8fe] ring-2 ring-[var(--pp-blue)]" : image ? "bg-[var(--pp-surface)]" : "bg-[var(--pp-surface)] outline-dashed outline-1 outline-[var(--pp-line-strong)] hover:bg-[#f2f9fd]"}`}
               onDragEnter={() => setIsDragging(true)}
               onDragLeave={() => setIsDragging(false)}
               onDragOver={(event) => event.preventDefault()}
@@ -155,7 +155,7 @@ export function SocialImagePreview() {
                   <img src={image.url} alt="Uploaded original" className="mb-6 h-36 max-w-full rounded-[var(--pp-radius-sm)] object-contain" />
                   <strong className="max-w-full truncate font-display text-lg font-semibold">{image.name}</strong>
                   <span className="mt-1 font-mono text-xs text-[var(--pp-text-muted)]">SOURCE / {image.width} × {image.height} PX</span>
-                  <span className="tech-label mt-5 rounded-full border border-[var(--pp-line)] bg-white px-4 py-2 text-[var(--pp-blue-bright)]">Replace source</span>
+                  <span className="tech-label mt-5 rounded-full bg-[#eef8fe] px-4 py-2 text-[var(--pp-blue-bright)]">Replace source</span>
                 </>
               ) : (
                 <>
@@ -173,21 +173,21 @@ export function SocialImagePreview() {
       </section>
 
       <section className="mx-auto max-w-[1200px] px-5 py-12 sm:px-8 lg:py-16">
-        <div className="sticky top-0 z-20 -mx-5 mb-16 border-y border-[var(--pp-line)] bg-[rgba(255,255,255,0.94)] px-5 py-4 backdrop-blur-xl sm:-mx-8 sm:px-8">
+        <div className="sticky top-3 z-20 mb-20 rounded-2xl bg-[rgba(250,250,250,0.94)] px-4 py-4 shadow-[0_6px_24px_rgba(10,13,20,0.05)] backdrop-blur-xl sm:px-5">
           <div className="mx-auto flex max-w-[1136px] flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
               <p className="tech-label text-[var(--pp-blue-bright)]">Output matrix / 02</p>
               <p className="mt-1 font-mono text-sm text-[var(--pp-text-muted)]">{String(visibleCount).padStart(2, "0")} ACTIVE PLACEMENTS</p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
-              <label className="flex items-center gap-3 rounded-full border border-[var(--pp-line)] bg-white px-4 py-3 text-sm">
+              <label className="flex items-center gap-3 rounded-full bg-white px-4 py-3 text-sm shadow-[0_1px_3px_rgba(10,13,20,0.06)]">
                 <span className="tech-label text-[var(--pp-text-dim)]">Platform</span>
                 <select aria-label="Filter by platform" value={platformFilter} onChange={(event) => setPlatformFilter(event.target.value)} className="min-w-32 bg-transparent font-medium text-[var(--pp-text)] outline-none">
                   <option value="all">All platforms</option>
                   {platforms.map((platform) => <option key={platform.id} value={platform.id}>{platform.name}</option>)}
                 </select>
               </label>
-              <label className="flex items-center gap-3 rounded-full border border-[var(--pp-line)] bg-white px-4 py-3 text-sm">
+              <label className="flex items-center gap-3 rounded-full bg-white px-4 py-3 text-sm shadow-[0_1px_3px_rgba(10,13,20,0.06)]">
                 <span className="tech-label text-[var(--pp-text-dim)]">Placement</span>
                 <select aria-label="Filter by placement category" value={placementFilter} onChange={(event) => setPlacementFilter(event.target.value as PlacementCategory | "all")} className="min-w-32 bg-transparent font-medium text-[var(--pp-text)] outline-none">
                   <option value="all">All placements</option>
@@ -200,7 +200,7 @@ export function SocialImagePreview() {
 
         <div className="space-y-24">
           {visiblePlatforms.map((platform, index) => (
-            <section key={platform.id} aria-labelledby={`${platform.id}-heading`} className="grid gap-8 border-t border-[var(--pp-line)] pt-10 lg:grid-cols-[230px_1fr] lg:gap-16">
+            <section key={platform.id} aria-labelledby={`${platform.id}-heading`} className="grid gap-8 lg:grid-cols-[230px_1fr] lg:gap-16">
               <div className="lg:sticky lg:top-32 lg:self-start">
                 <PlatformIcon id={platform.id} name={platform.name} color={platform.color} />
                 <p className="tech-label text-[var(--pp-text-dim)]">Channel / {String(index + 1).padStart(2, "0")}</p>
@@ -228,7 +228,7 @@ export function SocialImagePreview() {
         </div>
       </section>
 
-      <footer className="mt-16 border-t border-[var(--pp-line)] px-5 py-10 text-sm text-[var(--pp-text-muted)] sm:px-8 lg:px-12">
+      <footer className="mt-16 bg-[var(--pp-surface)] px-5 py-10 text-sm text-[var(--pp-text-muted)] sm:px-8 lg:px-12">
         <div className="mx-auto flex max-w-[1136px] flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><strong className="font-display text-[var(--pp-text)]">Pixel-Preview</strong><span className="tech-label text-[var(--pp-text-muted)]">Designed by Shimul</span></div>
       </footer>
     </main>

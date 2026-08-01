@@ -25,7 +25,7 @@ export function PreviewCard({ placement, imageUrl, hasUniversalImage, hasOverrid
     <article className={`flex min-w-0 flex-col gap-4 ${isProfile ? "items-center text-center" : ""}`}>
       <input ref={inputRef} type="file" className="sr-only" accept="image/jpeg,image/png,image/webp" aria-label={`Choose a custom image for ${placement.label}`} onChange={onChange} />
       <div
-        className={`preview-shadow group relative flex w-full items-center justify-center overflow-hidden border border-[var(--pp-line)] bg-[var(--pp-surface)] ${isProfile ? "mx-auto aspect-square max-w-52 rounded-full" : "rounded-[var(--pp-radius-md)]"}`}
+        className={`preview-shadow group relative flex w-full items-center justify-center overflow-hidden bg-[var(--pp-surface)] ${isProfile ? "mx-auto aspect-square max-w-52 rounded-full" : "rounded-[var(--pp-radius-md)]"}`}
         style={!isProfile ? { aspectRatio: `${placement.width} / ${placement.height}`, maxHeight: isStory ? 430 : 320 } : undefined}
       >
         {imageUrl ? (
@@ -44,15 +44,15 @@ export function PreviewCard({ placement, imageUrl, hasUniversalImage, hasOverrid
           </button>
         )}
       </div>
-      <div className={isProfile ? "w-full max-w-52 text-center" : ""}>
-        <div className={`flex items-start justify-between gap-3 ${isProfile ? "flex-col items-center text-center" : ""}`}>
-          <div>
+      <div className={isProfile ? "flex w-52 flex-col items-center text-center" : ""}>
+        <div className={isProfile ? "grid w-full justify-items-center gap-3 text-center" : "flex items-start justify-between gap-3"}>
+          <div className={isProfile ? "w-full text-center" : ""}>
             <h3 className="font-display text-[0.95rem] font-semibold tracking-[-0.02em] text-[var(--pp-text)]">{placement.label}</h3>
             <p className="mt-1 font-mono text-[0.72rem] tracking-[0.02em] text-[var(--pp-text-muted)]">
               {placement.width} × {placement.height} PX / {getAspectRatio(placement.width, placement.height)}
             </p>
           </div>
-          <button type="button" onClick={openPicker} className="focus-ring tech-label shrink-0 text-[var(--pp-blue-bright)] transition hover:text-[var(--pp-text)]">
+          <button type="button" onClick={openPicker} className={`focus-ring tech-label shrink-0 text-[var(--pp-blue-bright)] transition hover:text-[var(--pp-text)] ${isProfile ? "mx-auto" : ""}`}>
             {hasOverride ? "Replace" : imageUrl ? "Customize" : "Choose"}
           </button>
         </div>

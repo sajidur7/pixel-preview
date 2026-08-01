@@ -16,8 +16,8 @@
   --pp-text: #1e1e1e;
   --pp-text-muted: #666666;
   --pp-text-dim: #8d8d8d;
-  --pp-line: #e5e7eb;
-  --pp-line-strong: #ccd1da;
+  --pp-line: #f0f1f3;
+  --pp-line-strong: #dfe3e8;
   --pp-blue: #0098f2;
   --pp-blue-bright: #007fc9;
   --pp-violet: #6c56fc;
@@ -74,11 +74,10 @@ button, label { -webkit-tap-highlight-color: transparent; }
 
 .preview-shadow {
   box-shadow: var(--pp-shadow-card);
-  transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+  transition: transform 180ms ease, box-shadow 180ms ease;
 }
 
 .preview-shadow:hover {
-  border-color: rgba(0, 152, 242, 0.35);
   box-shadow: var(--pp-shadow-card), var(--pp-shadow-glow);
   transform: translateY(-2px);
 }
