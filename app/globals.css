@@ -96,6 +96,7 @@ button, label { -webkit-tap-highlight-color: transparent; }
 
 /* Subtle matrix lines clarify platform groups and individual placements. */
 .platform-matrix {
+  position: relative;
   border-top: 1px solid var(--pp-line);
   border-right: 1px solid var(--pp-line);
   border-left: 1px solid var(--pp-line);
@@ -147,6 +148,34 @@ button, label { -webkit-tap-highlight-color: transparent; }
 }
 
 @media (min-width: 1024px) {
+  .platform-matrix::before,
+  .platform-matrix::after {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    bottom: 0;
+    pointer-events: none;
+    content: "";
+  }
+
+  .platform-matrix::before {
+    left: 230px;
+    width: 1px;
+    background: var(--pp-line);
+  }
+
+  .platform-matrix::after {
+    right: 0;
+    left: 230px;
+    background: linear-gradient(
+      to right,
+      transparent calc(50% - 0.5px),
+      var(--pp-line) calc(50% - 0.5px),
+      var(--pp-line) calc(50% + 0.5px),
+      transparent calc(50% + 0.5px)
+    );
+  }
+
   .platform-row {
     grid-template-columns: 230px minmax(0, 1fr);
     gap: 0;
@@ -154,7 +183,6 @@ button, label { -webkit-tap-highlight-color: transparent; }
   }
 
   .platform-meta {
-    border-right: 1px solid var(--pp-line);
     border-bottom: 0;
     padding: 3rem 2.5rem;
   }
@@ -164,17 +192,28 @@ button, label { -webkit-tap-highlight-color: transparent; }
   }
 
   .placement-grid > article {
+    border-left: 0;
     padding-block: 3rem;
   }
 }
 
 @media (min-width: 1280px) {
-  .placement-grid > article:nth-child(odd) {
-    border-left: 1px solid var(--pp-line);
-  }
-
-  .placement-grid > article:nth-child(3n + 1) {
-    border-left: 0;
+  .platform-matrix::after {
+    background:
+      linear-gradient(
+        to right,
+        transparent calc(33.333333% - 0.5px),
+        var(--pp-line) calc(33.333333% - 0.5px),
+        var(--pp-line) calc(33.333333% + 0.5px),
+        transparent calc(33.333333% + 0.5px)
+      ),
+      linear-gradient(
+        to right,
+        transparent calc(66.666667% - 0.5px),
+        var(--pp-line) calc(66.666667% - 0.5px),
+        var(--pp-line) calc(66.666667% + 0.5px),
+        transparent calc(66.666667% + 0.5px)
+      );
   }
 
   .placement-grid > article:nth-child(n + 3) {

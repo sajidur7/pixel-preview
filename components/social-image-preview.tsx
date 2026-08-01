@@ -207,7 +207,7 @@ export function SocialImagePreview() {
                 <h2 id={`${platform.id}-heading`} className="font-display mt-2 text-3xl font-semibold tracking-[-0.05em] text-[var(--pp-text)]">{platform.name}</h2>
                 <p className="mt-2 font-mono text-xs text-[var(--pp-text-muted)]">{String(platform.placements.length).padStart(2, "0")} {platform.placements.length === 1 ? "PREVIEW" : "PREVIEWS"}</p>
               </div>
-              <div className={`placement-grid grid items-stretch ${platform.placements.length === 1 ? "max-w-md grid-cols-1" : "sm:grid-cols-2 xl:grid-cols-3"}`}>
+              <div className={`placement-grid grid items-stretch ${platform.placements.length === 1 ? "grid-cols-1" : "sm:grid-cols-2 xl:grid-cols-3"}`}>
                 {platform.placements.map((placement) => {
                   const override = imageOverrides[placement.id];
                   return (
