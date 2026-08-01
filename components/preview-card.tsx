@@ -22,7 +22,7 @@ export function PreviewCard({ placement, imageUrl, hasUniversalImage, hasOverrid
   };
 
   return (
-    <article className="flex min-w-0 flex-col gap-4">
+    <article className={`flex min-w-0 flex-col gap-4 ${isProfile ? "items-center text-center" : ""}`}>
       <input ref={inputRef} type="file" className="sr-only" accept="image/jpeg,image/png,image/webp" aria-label={`Choose a custom image for ${placement.label}`} onChange={onChange} />
       <div
         className={`preview-shadow group relative flex w-full items-center justify-center overflow-hidden border border-[var(--pp-line)] bg-[var(--pp-surface)] ${isProfile ? "mx-auto aspect-square max-w-52 rounded-full" : "rounded-[var(--pp-radius-md)]"}`}
@@ -33,31 +33,31 @@ export function PreviewCard({ placement, imageUrl, hasUniversalImage, hasOverrid
             {/* Blob URLs cannot use the optimized image component. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={imageUrl} alt={`${placement.label} crop preview`} className="h-full w-full object-cover" />
-            <span className="absolute left-3 top-3 grid size-7 place-items-center rounded-full border border-white/20 bg-black/75 text-[0.65rem] font-extrabold text-white backdrop-blur-md" aria-label={hasOverride ? "Custom image" : "Universal image"} title={hasOverride ? "Custom image" : "Universal image"}>
+            <span className={`absolute top-3 z-10 grid size-7 place-items-center rounded-full border border-[var(--pp-line-strong)] bg-white text-[0.65rem] font-extrabold text-[var(--pp-blue-bright)] shadow-[0_2px_8px_rgba(10,13,20,0.12)] ${isProfile ? "left-1/2 -translate-x-1/2" : "left-3"}`} aria-label={hasOverride ? "Custom image" : "Universal image"} title={hasOverride ? "Custom image" : "Universal image"}>
               {hasOverride ? "C" : "U"}
             </span>
           </>
         ) : (
-          <button type="button" onClick={openPicker} className="focus-ring flex h-full w-full cursor-pointer flex-col items-center justify-center gap-3 bg-[linear-gradient(135deg,rgba(76,125,255,0.05),rgba(138,92,255,0.03))] px-5 text-center text-[var(--pp-text-muted)] transition hover:bg-[rgba(76,125,255,0.09)] hover:text-white" aria-label={`Add an image for ${placement.label}`}>
-            <span className="grid size-10 place-items-center rounded-full border border-[var(--pp-line-strong)] bg-white/[0.03] text-lg text-[var(--pp-blue-bright)]">+</span>
+          <button type="button" onClick={openPicker} className="focus-ring flex h-full w-full cursor-pointer flex-col items-center justify-center gap-3 bg-[var(--pp-surface)] px-5 text-center text-[var(--pp-text-muted)] transition hover:bg-[#f2f8fc] hover:text-[var(--pp-text)]" aria-label={`Add an image for ${placement.label}`}>
+            <span className="grid size-10 place-items-center rounded-full border border-[var(--pp-line-strong)] bg-white text-lg text-[var(--pp-blue-bright)]">+</span>
             <span className="tech-label">Add image</span>
           </button>
         )}
       </div>
-      <div className={isProfile ? "text-center" : ""}>
-        <div className={`flex items-start justify-between gap-3 ${isProfile ? "flex-col items-center" : ""}`}>
+      <div className={isProfile ? "w-full max-w-52 text-center" : ""}>
+        <div className={`flex items-start justify-between gap-3 ${isProfile ? "flex-col items-center text-center" : ""}`}>
           <div>
             <h3 className="font-display text-[0.95rem] font-semibold tracking-[-0.02em] text-[var(--pp-text)]">{placement.label}</h3>
-            <p className="mt-1 font-mono text-[0.72rem] tracking-[0.02em] text-[var(--pp-text-dim)]">
+            <p className="mt-1 font-mono text-[0.72rem] tracking-[0.02em] text-[var(--pp-text-muted)]">
               {placement.width} × {placement.height} PX / {getAspectRatio(placement.width, placement.height)}
             </p>
           </div>
-          <button type="button" onClick={openPicker} className="focus-ring tech-label shrink-0 text-[var(--pp-blue-bright)] transition hover:text-white">
+          <button type="button" onClick={openPicker} className="focus-ring tech-label shrink-0 text-[var(--pp-blue-bright)] transition hover:text-[var(--pp-text)]">
             {hasOverride ? "Replace" : imageUrl ? "Customize" : "Choose"}
           </button>
         </div>
         {hasOverride && (
-          <button type="button" onClick={onUseUniversal} className="focus-ring mt-2 text-xs font-medium text-[var(--pp-text-muted)] transition hover:text-white">
+          <button type="button" onClick={onUseUniversal} className="focus-ring mt-2 text-xs font-medium text-[var(--pp-text-muted)] transition hover:text-[var(--pp-text)]">
             {hasUniversalImage ? "Use universal image" : "Remove custom image"}
           </button>
         )}

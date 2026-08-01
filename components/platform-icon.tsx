@@ -37,8 +37,8 @@ export function PlatformIcon({ id, name, color }: PlatformIconProps) {
     <span
       role="img"
       aria-label={`${name} logo`}
-      className="mb-6 grid size-11 place-items-center rounded-[var(--pp-radius-sm)] border border-white/15 text-white shadow-[0_14px_34px_rgba(0,0,0,0.35)]"
-      style={{ background: `linear-gradient(135deg, ${color}, color-mix(in srgb, ${color} 70%, #080910))` }}
+      className="mb-6 grid size-11 place-items-center rounded-full text-white shadow-[0_2px_8px_rgba(10,13,20,0.08)]"
+      style={{ backgroundColor: color }}
     >
       <Icon aria-hidden="true" className="size-5" />
     </span>
