@@ -14,6 +14,7 @@ export function SocialImagePreview() {
   const [imageOverrides, setImageOverrides] = useState<Record<string, UploadedImage>>({});
   const [platformFilter, setPlatformFilter] = useState("all");
   const [placementFilter, setPlacementFilter] = useState<PlacementCategory | "all">("all");
+  const [universalScope, setUniversalScope] = useState<PlacementCategory | "all">("all");
   const [error, setError] = useState("");
   const [isDragging, setIsDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -115,6 +116,8 @@ export function SocialImagePreview() {
     .filter((platform) => platform.placements.length > 0), [platformFilter, placementFilter]);
 
   const visibleCount = visiblePlatforms.reduce((count, platform) => count + platform.placements.length, 0);
+  const totalPlacements = platforms.reduce((count, platform) => count + platform.placements.length, 0);
+  const universalAppliesTo = (category: PlacementCategory) => universalScope === "all" || universalScope === category;
 
   return (
     <main className="min-h-screen overflow-clip bg-[var(--pp-bg)] text-[var(--pp-text)]">
@@ -132,14 +135,23 @@ export function SocialImagePreview() {
             <h1 className="font-display max-w-5xl text-[clamp(3.6rem,8vw,7rem)] font-semibold leading-[0.9] tracking-[-0.055em] text-[var(--pp-text)]">One image.<br /><span className="text-[var(--pp-blue)]">Every frame.</span></h1>
             <p className="mt-9 max-w-2xl text-base leading-7 text-[var(--pp-text-muted)] sm:text-xl sm:leading-8">See exactly how your image lands across profiles, banners, posts, and stories—before the world does.</p>
             <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3">
-              <span className="tech-label text-[var(--pp-text-muted)]"><b className="mr-2 text-[var(--pp-text)]">09</b>Platforms</span>
-              <span className="tech-label text-[var(--pp-text-muted)]"><b className="mr-2 text-[var(--pp-text)]">26</b>Placements</span>
+              <span className="tech-label text-[var(--pp-text-muted)]"><b className="mr-2 text-[var(--pp-text)]">{String(platforms.length).padStart(2, "0")}</b>Platforms</span>
+              <span className="tech-label text-[var(--pp-text-muted)]"><b className="mr-2 text-[var(--pp-text)]">{totalPlacements}</b>Placements</span>
               <span className="tech-label text-[var(--pp-text-muted)]"><b className="mr-2 text-[var(--pp-text)]">100%</b>Private</span>
             </div>
           </div>
 
           <div className="relative rounded-[2rem] bg-[var(--pp-surface-glass)] p-3 shadow-[0_8px_30px_rgba(10,13,20,0.07)] backdrop-blur-xl sm:p-4">
-            <span className="tech-label absolute -top-8 left-0 text-[var(--pp-text-dim)]">Universal source</span>
+            <div className="absolute -top-10 left-0 right-0 flex items-center justify-between gap-3">
+              <span className="tech-label text-[var(--pp-text-dim)]">Universal source</span>
+              <label className="flex items-center gap-2 text-xs text-[var(--pp-text-muted)]">
+                <span className="tech-label hidden text-[var(--pp-text-dim)] sm:inline">Apply to</span>
+                <select aria-label="Apply universal image to" value={universalScope} onChange={(event) => setUniversalScope(event.target.value as PlacementCategory | "all")} className="focus-ring rounded-full bg-white px-3 py-2 font-semibold text-[var(--pp-text)] shadow-[0_1px_4px_rgba(10,13,20,0.08)] outline-none">
+                  <option value="all">All placements</option>
+                  {placementCategories.map((category) => <option key={category} value={category}>{placementLabels[category]}</option>)}
+                </select>
+              </label>
+            </div>
             <label
               className={`focus-within:ring-2 focus-within:ring-[var(--pp-focus)] flex min-h-80 cursor-pointer flex-col items-center justify-center rounded-2xl px-6 text-center transition ${isDragging ? "bg-[#eef8fe] ring-2 ring-[var(--pp-blue)]" : image ? "bg-[var(--pp-surface)]" : "bg-[var(--pp-surface)] outline-dashed outline-1 outline-[var(--pp-line-strong)] hover:bg-[#f2f9fd]"}`}
               onDragEnter={() => setIsDragging(true)}
@@ -155,6 +167,7 @@ export function SocialImagePreview() {
                   <img src={image.url} alt="Uploaded original" className="mb-6 h-36 max-w-full rounded-[var(--pp-radius-sm)] object-contain" />
                   <strong className="max-w-full truncate font-display text-lg font-semibold">{image.name}</strong>
                   <span className="mt-1 font-mono text-xs text-[var(--pp-text-muted)]">SOURCE / {image.width} × {image.height} PX</span>
+                  <span className="mt-2 text-xs font-medium text-[var(--pp-blue-bright)]">Applied to {universalScope === "all" ? "all placements" : placementLabels[universalScope].toLowerCase()}</span>
                   <span className="tech-label mt-5 rounded-full bg-[#eef8fe] px-4 py-2 text-[var(--pp-blue-bright)]">Replace source</span>
                 </>
               ) : (
@@ -194,6 +207,11 @@ export function SocialImagePreview() {
                   {placementCategories.map((category) => <option key={category} value={category}>{placementLabels[category]}</option>)}
                 </select>
               </label>
+              {(platformFilter !== "all" || placementFilter !== "all") && (
+                <button type="button" onClick={() => { setPlatformFilter("all"); setPlacementFilter("all"); }} className="focus-ring tech-label rounded-full bg-[#eef8fe] px-5 py-3 text-[var(--pp-blue-bright)] transition hover:bg-[#e2f3fc] hover:text-[var(--pp-text)]">
+                  Clear filters
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -207,15 +225,15 @@ export function SocialImagePreview() {
                 <h2 id={`${platform.id}-heading`} className="font-display mt-2 text-3xl font-semibold tracking-[-0.05em] text-[var(--pp-text)]">{platform.name}</h2>
                 <p className="mt-2 font-mono text-xs text-[var(--pp-text-muted)]">{String(platform.placements.length).padStart(2, "0")} {platform.placements.length === 1 ? "PREVIEW" : "PREVIEWS"}</p>
               </div>
-              <div className={`placement-grid grid items-stretch ${platform.placements.length === 1 ? "grid-cols-1" : "sm:grid-cols-2 xl:grid-cols-3"}`}>
+              <div className="placement-grid grid items-stretch">
                 {platform.placements.map((placement) => {
                   const override = imageOverrides[placement.id];
                   return (
                     <PreviewCard
                       key={placement.id}
                       placement={placement}
-                      imageUrl={override?.url ?? image?.url ?? null}
-                      hasUniversalImage={Boolean(image)}
+                      imageUrl={override?.url ?? (universalAppliesTo(placement.category) ? image?.url ?? null : null)}
+                      hasUniversalImage={Boolean(image && universalAppliesTo(placement.category))}
                       hasOverride={Boolean(override)}
                       onSelectImage={(file) => loadOverrideImage(placement.id, file)}
                       onUseUniversal={() => removeOverride(placement.id)}

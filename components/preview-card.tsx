@@ -22,7 +22,7 @@ export function PreviewCard({ placement, imageUrl, hasUniversalImage, hasOverrid
   };
 
   return (
-    <article className={`flex min-w-0 flex-col gap-4 ${isProfile ? "items-center text-center" : ""}`}>
+    <article className={`placement-${placement.category} flex min-w-0 flex-col gap-4 ${isProfile ? "items-center text-center" : ""}`}>
       <input ref={inputRef} type="file" className="sr-only" accept="image/jpeg,image/png,image/webp" aria-label={`Choose a custom image for ${placement.label}`} onChange={onChange} />
       <div
         className={`preview-shadow group relative flex w-full items-center justify-center overflow-hidden bg-[var(--pp-surface)] ${isProfile ? "mx-auto aspect-square max-w-52 rounded-full" : "rounded-[var(--pp-radius-md)]"}`}
