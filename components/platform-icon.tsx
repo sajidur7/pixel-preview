@@ -1,5 +1,7 @@
 import {
+  SiBehance,
   SiBluesky,
+  SiDribbble,
   SiFacebook,
   SiInstagram,
   SiPinterest,
@@ -15,6 +17,8 @@ import type { PlatformId } from "@/lib/platforms";
 const icons: Record<PlatformId, IconType> = {
   instagram: SiInstagram,
   facebook: SiFacebook,
+  dribbble: SiDribbble,
+  behance: SiBehance,
   linkedin: FaLinkedinIn,
   x: SiX,
   youtube: SiYoutube,

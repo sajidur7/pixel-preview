@@ -37,6 +37,21 @@ export const platforms = [
     ],
   },
   {
+    id: "dribbble", name: "Dribbble", mark: "Dr", color: "#ea4c89",
+    placements: [
+      { id: "dribbble-profile", category: "profile", label: "Profile picture", width: 400, height: 400 },
+      { id: "dribbble-shot", category: "post", label: "Shot image", width: 1600, height: 1200 },
+    ],
+  },
+  {
+    id: "behance", name: "Behance", mark: "Be", color: "#1769ff",
+    placements: [
+      { id: "behance-profile", category: "profile", label: "Profile picture", width: 400, height: 400 },
+      { id: "behance-banner", category: "cover", label: "Profile banner", width: 3200, height: 410 },
+      { id: "behance-project-cover", category: "post", label: "Project cover", width: 808, height: 632 },
+    ],
+  },
+  {
     id: "linkedin", name: "LinkedIn", mark: "in", color: "#0a66c2",
     placements: [
       { id: "linkedin-profile", category: "profile", label: "Profile picture", width: 400, height: 400 },

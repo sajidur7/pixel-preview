@@ -130,7 +130,7 @@ export function SocialImagePreview() {
         </nav>
         <div className="sidebar-details">
           <p className="tech-label">Workspace</p>
-          <dl><div><dt>Platforms</dt><dd>09</dd></div><div><dt>Formats</dt><dd>27</dd></div><div><dt>Processing</dt><dd>Local</dd></div></dl>
+          <dl><div><dt>Platforms</dt><dd>11</dd></div><div><dt>Formats</dt><dd>32</dd></div><div><dt>Processing</dt><dd>Local</dd></div></dl>
         </div>
         <p className="sidebar-credit">Created by Shimul</p>
       </aside>
@@ -138,7 +138,7 @@ export function SocialImagePreview() {
       <div className="workspace-shell">
         <section id="top" className="dashboard-hero">
           <div className="hero-copy">
-            <span className="hero-badge"><i aria-hidden="true" />9 platforms · 27 formats</span>
+            <span className="hero-badge"><i aria-hidden="true" />11 platforms · 32 formats</span>
             <h1>Perfect crops,<br /><span>before you post.</span></h1>
             <p>Upload once, inspect every social placement, and customize only the frames that need a different image.</p>
             <a href="#workspace" className="primary-action">Choose an image <span aria-hidden="true">→</span></a>
