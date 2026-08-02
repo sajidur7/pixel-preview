@@ -14,6 +14,7 @@ export function SocialImagePreview() {
   const [imageOverrides, setImageOverrides] = useState<Record<string, UploadedImage>>({});
   const [platformFilter, setPlatformFilter] = useState("all");
   const [placementFilter, setPlacementFilter] = useState<PlacementCategory | "all">("all");
+  const [universalScope, setUniversalScope] = useState<PlacementCategory | "all">("all");
   const [error, setError] = useState("");
   const [isDragging, setIsDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -110,7 +111,9 @@ export function SocialImagePreview() {
     .filter((platform) => platformFilter === "all" || platform.id === platformFilter)
     .map((platform) => ({
       ...platform,
-      placements: platform.placements.filter((placement) => placementFilter === "all" || placement.category === placementFilter),
+      placements: platform.placements
+        .map((placement, index) => ({ placement, slot: index + 1 }))
+        .filter(({ placement }) => placementFilter === "all" || placement.category === placementFilter),
     }))
     .filter((platform) => platform.placements.length > 0), [platformFilter, placementFilter]);
 
@@ -118,118 +121,118 @@ export function SocialImagePreview() {
 
   return (
     <main className="min-h-screen overflow-clip bg-[var(--pp-bg)] text-[var(--pp-text)]">
-      <header className="border-b border-[var(--pp-line)] bg-[rgba(255,255,255,0.94)] backdrop-blur-xl">
-        <div className="mx-auto flex max-w-[1200px] items-center justify-between px-5 py-5 sm:px-8">
-          <a href="#top" className="focus-ring rounded-sm font-display text-xl font-extrabold tracking-[-0.04em]">Pixel-Preview</a>
-          <span className="tech-label hidden items-center gap-2 text-[var(--pp-text-muted)] sm:flex"><span className="size-2 rounded-full bg-[var(--pp-blue)]" /> Created by Shimul</span>
+      <header className="site-header">
+        <div className="mx-auto flex max-w-[1240px] items-center justify-between px-5 py-4 sm:px-8">
+          <a href="#top" className="focus-ring font-display text-xl font-semibold tracking-[-0.02em] text-white">Pixel-Preview</a>
+          <nav aria-label="Page sections" className="hidden items-center gap-7 text-xs text-[var(--pp-dark-muted)] sm:flex">
+            <a href="#workspace" className="transition hover:text-white">Workspace</a>
+            <a href="#previews" className="transition hover:text-white">Previews</a>
+          </nav>
+          <span className="tech-label text-[var(--pp-dark-muted)]">Created by Shimul</span>
         </div>
       </header>
 
-      <section id="top" className="grid-noise">
-        <div className="mx-auto grid min-h-[660px] max-w-[1200px] gap-14 px-5 py-16 sm:px-8 sm:py-24 lg:grid-cols-[minmax(0,1.15fr)_minmax(390px,0.85fr)] lg:items-center lg:py-28">
-          <div>
-            <p className="tech-label mb-7 flex items-center gap-3 text-[var(--pp-blue-bright)]"><span className="h-px w-10 bg-[var(--pp-blue)]" /> See it before you post</p>
-            <h1 className="font-display max-w-5xl text-[clamp(3.6rem,8vw,7rem)] font-semibold leading-[0.9] tracking-[-0.055em] text-[var(--pp-text)]">One image.<br /><span className="text-[var(--pp-blue)]">Every frame.</span></h1>
-            <p className="mt-9 max-w-2xl text-base leading-7 text-[var(--pp-text-muted)] sm:text-xl sm:leading-8">See exactly how your image lands across profiles, banners, posts, and stories—before the world does.</p>
-            <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3">
-              <span className="tech-label text-[var(--pp-text-muted)]"><b className="mr-2 text-[var(--pp-text)]">09</b>Platforms</span>
-              <span className="tech-label text-[var(--pp-text-muted)]"><b className="mr-2 text-[var(--pp-text)]">26</b>Placements</span>
-              <span className="tech-label text-[var(--pp-text-muted)]"><b className="mr-2 text-[var(--pp-text)]">100%</b>Private</span>
+      <section id="top" className="hero-grid border-b border-[var(--pp-dark-line)] bg-[var(--pp-ink)] text-white">
+        <div className="mx-auto grid max-w-[1240px] lg:grid-cols-[0.92fr_1.08fr]">
+          <div className="flex min-h-[560px] flex-col justify-between border-[var(--pp-dark-line)] px-5 py-14 sm:px-8 sm:py-20 lg:border-r lg:px-12">
+            <div>
+              <p className="tech-label text-[var(--pp-accent)]">Cross-platform image intelligence</p>
+              <h1 className="mt-10 max-w-2xl font-display text-[clamp(3.6rem,7vw,6.8rem)] font-medium leading-[0.88] tracking-[-0.045em]">See every crop<br />before you post.</h1>
+            </div>
+            <div className="mt-14 grid gap-8 border-t border-[var(--pp-dark-line)] pt-8 sm:grid-cols-[1fr_auto] sm:items-end">
+              <p className="max-w-md text-base leading-7 text-[var(--pp-dark-muted)]">One private workspace for profiles, banners, posts, and stories across nine social platforms.</p>
+              <div className="flex gap-5 font-mono text-[0.68rem] uppercase tracking-[0.14em] text-[var(--pp-dark-muted)]"><span>09 platforms</span><span>27 formats</span></div>
             </div>
           </div>
 
-          <div className="relative rounded-[2rem] bg-[var(--pp-surface-glass)] p-3 shadow-[0_8px_30px_rgba(10,13,20,0.07)] backdrop-blur-xl sm:p-4">
-            <span className="tech-label absolute -top-8 left-0 text-[var(--pp-text-dim)]">Universal source</span>
-            <label
-              className={`focus-within:ring-2 focus-within:ring-[var(--pp-focus)] flex min-h-80 cursor-pointer flex-col items-center justify-center rounded-2xl px-6 text-center transition ${isDragging ? "bg-[#eef8fe] ring-2 ring-[var(--pp-blue)]" : image ? "bg-[var(--pp-surface)]" : "bg-[var(--pp-surface)] outline-dashed outline-1 outline-[var(--pp-line-strong)] hover:bg-[#f2f9fd]"}`}
-              onDragEnter={() => setIsDragging(true)}
-              onDragLeave={() => setIsDragging(false)}
-              onDragOver={(event) => event.preventDefault()}
-              onDrop={onDrop}
-            >
-              <input ref={inputRef} type="file" className="sr-only" accept="image/jpeg,image/png,image/webp" onChange={onInputChange} />
-              {image ? (
-                <>
-                  {/* Blob URLs cannot use the optimized image component. */}
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={image.url} alt="Uploaded original" className="mb-6 h-36 max-w-full rounded-[var(--pp-radius-sm)] object-contain" />
-                  <strong className="max-w-full truncate font-display text-lg font-semibold">{image.name}</strong>
-                  <span className="mt-1 font-mono text-xs text-[var(--pp-text-muted)]">SOURCE / {image.width} × {image.height} PX</span>
-                  <span className="tech-label mt-5 rounded-full bg-[#eef8fe] px-4 py-2 text-[var(--pp-blue-bright)]">Replace source</span>
-                </>
-              ) : (
-                <>
-                  <span className="mb-6 grid size-14 place-items-center rounded-full border border-[var(--pp-blue)] bg-white text-2xl font-light text-[var(--pp-blue-bright)]">↑</span>
-                  <strong className="font-display text-xl font-semibold">Drop universal image</strong>
-                  <span className="mt-2 text-sm text-[var(--pp-text-muted)]">or browse / JPG · PNG · WEBP</span>
-                  <span className="tech-label mt-7 text-[var(--pp-text-dim)]">Never leaves this browser</span>
-                </>
-              )}
-            </label>
-            {error && <p role="alert" className="px-3 pt-3 text-sm font-semibold text-[var(--pp-error)]">{error}</p>}
-            {(image || Object.keys(imageOverrides).length > 0) && <button type="button" onClick={resetImage} className="focus-ring tech-label mt-3 w-full rounded-full py-3 text-[var(--pp-text-muted)] transition hover:bg-[var(--pp-surface)] hover:text-[var(--pp-text)]">Reset all images</button>}
+          <div id="workspace" className="flex items-center px-5 py-14 sm:px-8 lg:px-12">
+            <div className="w-full border border-[var(--pp-dark-line)] bg-white text-[var(--pp-text)] shadow-[0_28px_70px_rgba(0,0,0,0.28)]">
+              <div className="flex flex-col gap-4 border-b border-[var(--pp-line)] px-5 py-5 sm:flex-row sm:items-center sm:justify-between">
+                <div><p className="tech-label text-[var(--pp-blue-bright)]">Universal source</p><p className="mt-1 text-sm text-[var(--pp-text-muted)]">Choose where this image should appear.</p></div>
+                <div className="scope-control" role="group" aria-label="Universal image placement scope">
+                  <button type="button" aria-pressed={universalScope === "all"} onClick={() => setUniversalScope("all")}>All</button>
+                  {placementCategories.map((category) => (
+                    <button key={category} type="button" aria-pressed={universalScope === category} onClick={() => setUniversalScope(category)}>{placementLabels[category].replace(" picture", "").replace(" / banner", "")}</button>
+                  ))}
+                </div>
+              </div>
+              <label
+                className={`source-dropzone ${isDragging ? "is-dragging" : ""}`}
+                onDragEnter={() => setIsDragging(true)}
+                onDragLeave={() => setIsDragging(false)}
+                onDragOver={(event) => event.preventDefault()}
+                onDrop={onDrop}
+              >
+                <input ref={inputRef} type="file" className="sr-only" accept="image/jpeg,image/png,image/webp" onChange={onInputChange} />
+                {image ? (
+                  <>
+                    {/* Blob URLs cannot use the optimized image component. */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={image.url} alt="Uploaded original" className="h-40 w-full max-w-64 border border-[var(--pp-line)] object-contain" />
+                    <div className="min-w-0 text-center sm:text-left"><strong className="block truncate font-medium">{image.name}</strong><span className="mt-1 block font-mono text-xs text-[var(--pp-text-muted)]">{image.width} × {image.height} PX · {universalScope === "all" ? "ALL PLACEMENTS" : placementLabels[universalScope].toUpperCase()}</span><span className="mt-4 inline-block text-xs font-semibold text-[var(--pp-blue-bright)]">Replace image →</span></div>
+                  </>
+                ) : (
+                  <>
+                    <span className="grid size-10 place-items-center border border-[var(--pp-line-strong)] text-xl text-[var(--pp-blue-bright)]">+</span>
+                    <div className="text-center sm:text-left"><strong className="block font-medium">Choose a universal image</strong><span className="mt-1 block text-sm text-[var(--pp-text-muted)]">Drop or browse · JPG, PNG, WebP</span></div>
+                    <span className="tech-label sm:ml-auto text-[var(--pp-text-dim)]">Local only</span>
+                  </>
+                )}
+              </label>
+              {error ? <p role="alert" className="border-t border-[var(--pp-line)] px-5 py-3 text-sm font-semibold text-[var(--pp-error)]">{error}</p> : null}
+              {(image || Object.keys(imageOverrides).length > 0) ? <button type="button" onClick={resetImage} className="focus-ring tech-label w-full border-t border-[var(--pp-line)] py-4 text-[var(--pp-text-muted)] transition hover:bg-[var(--pp-surface)] hover:text-[var(--pp-text)]">Reset all images</button> : null}
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1200px] px-5 py-12 sm:px-8 lg:py-16">
-        <div className="sticky top-3 z-20 mb-20 rounded-2xl bg-[rgba(250,250,250,0.94)] px-4 py-4 shadow-[0_6px_24px_rgba(10,13,20,0.05)] backdrop-blur-xl sm:px-5">
-          <div className="mx-auto flex max-w-[1136px] flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div>
-              <p className="tech-label text-[var(--pp-blue-bright)]">Output matrix / 02</p>
-              <p className="mt-1 font-mono text-sm text-[var(--pp-text-muted)]">{String(visibleCount).padStart(2, "0")} ACTIVE PLACEMENTS</p>
-            </div>
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <label className="flex items-center gap-3 rounded-full bg-white px-4 py-3 text-sm shadow-[0_1px_3px_rgba(10,13,20,0.06)]">
-                <span className="tech-label text-[var(--pp-text-dim)]">Platform</span>
-                <select aria-label="Filter by platform" value={platformFilter} onChange={(event) => setPlatformFilter(event.target.value)} className="min-w-32 bg-transparent font-medium text-[var(--pp-text)] outline-none">
-                  <option value="all">All platforms</option>
-                  {platforms.map((platform) => <option key={platform.id} value={platform.id}>{platform.name}</option>)}
-                </select>
-              </label>
-              <label className="flex items-center gap-3 rounded-full bg-white px-4 py-3 text-sm shadow-[0_1px_3px_rgba(10,13,20,0.06)]">
-                <span className="tech-label text-[var(--pp-text-dim)]">Placement</span>
-                <select aria-label="Filter by placement category" value={placementFilter} onChange={(event) => setPlacementFilter(event.target.value as PlacementCategory | "all")} className="min-w-32 bg-transparent font-medium text-[var(--pp-text)] outline-none">
-                  <option value="all">All placements</option>
-                  {placementCategories.map((category) => <option key={category} value={category}>{placementLabels[category]}</option>)}
-                </select>
-              </label>
-            </div>
+      <section id="previews" className="mx-auto max-w-[1240px] px-5 py-16 sm:px-8 lg:py-24">
+        <div className="mb-10 grid gap-8 lg:grid-cols-[230px_1fr] lg:gap-0">
+          <div className="border-b border-[var(--pp-line-strong)] pb-6 lg:border-r lg:pr-8"><p className="tech-label text-[var(--pp-blue-bright)]">Preview matrix / 02</p><p className="mt-2 font-mono text-xs text-[var(--pp-text-muted)]">{String(visibleCount).padStart(2, "0")} ACTIVE PLACEMENTS</p></div>
+          <div className="filter-console lg:pl-8">
+            <fieldset><legend>Platform</legend><div className="filter-options"><button type="button" aria-pressed={platformFilter === "all"} onClick={() => setPlatformFilter("all")}>All</button>{platforms.map((platform) => <button type="button" key={platform.id} aria-pressed={platformFilter === platform.id} onClick={() => setPlatformFilter(platform.id)}>{platform.name}</button>)}</div></fieldset>
+            <fieldset><legend>Placement</legend><div className="filter-options"><button type="button" aria-pressed={placementFilter === "all"} onClick={() => setPlacementFilter("all")}>All</button>{placementCategories.map((category) => <button type="button" key={category} aria-pressed={placementFilter === category} onClick={() => setPlacementFilter(category)}>{placementLabels[category]}</button>)}</div></fieldset>
           </div>
         </div>
 
         <div className="platform-matrix">
-          {visiblePlatforms.map((platform, index) => (
-            <section key={platform.id} aria-labelledby={`${platform.id}-heading`} className="platform-row">
-              <div className="platform-meta">
-                <PlatformIcon id={platform.id} name={platform.name} color={platform.color} />
-                <p className="tech-label text-[var(--pp-text-dim)]">Channel / {String(index + 1).padStart(2, "0")}</p>
-                <h2 id={`${platform.id}-heading`} className="font-display mt-2 text-3xl font-semibold tracking-[-0.05em] text-[var(--pp-text)]">{platform.name}</h2>
-                <p className="mt-2 font-mono text-xs text-[var(--pp-text-muted)]">{String(platform.placements.length).padStart(2, "0")} {platform.placements.length === 1 ? "PREVIEW" : "PREVIEWS"}</p>
-              </div>
-              <div className={`placement-grid grid items-stretch ${platform.placements.length === 1 ? "grid-cols-1" : "sm:grid-cols-2 xl:grid-cols-3"}`}>
-                {platform.placements.map((placement) => {
-                  const override = imageOverrides[placement.id];
-                  return (
-                    <PreviewCard
-                      key={placement.id}
-                      placement={placement}
-                      imageUrl={override?.url ?? image?.url ?? null}
-                      hasUniversalImage={Boolean(image)}
-                      hasOverride={Boolean(override)}
-                      onSelectImage={(file) => loadOverrideImage(placement.id, file)}
-                      onUseUniversal={() => removeOverride(placement.id)}
-                    />
-                  );
-                })}
-              </div>
-            </section>
-          ))}
+          {visiblePlatforms.map((platform) => {
+            const platformNumber = platforms.findIndex((item) => item.id === platform.id) + 1;
+            return (
+              <section key={platform.id} aria-labelledby={`${platform.id}-heading`} className="platform-row">
+                <div className="platform-meta">
+                  <PlatformIcon id={platform.id} name={platform.name} color={platform.color} />
+                  <p className="tech-label text-[var(--pp-text-dim)]">Channel / {String(platformNumber).padStart(2, "0")}</p>
+                  <h2 id={`${platform.id}-heading`} className="mt-2 font-display text-4xl font-medium tracking-[-0.035em] text-[var(--pp-text)]">{platform.name}</h2>
+                  <p className="mt-2 font-mono text-xs text-[var(--pp-text-muted)]">{String(platform.placements.length).padStart(2, "0")} {platform.placements.length === 1 ? "PREVIEW" : "PREVIEWS"}</p>
+                </div>
+                <div className="placement-grid grid items-stretch sm:grid-cols-2 xl:grid-cols-3">
+                  {platform.placements.map(({ placement, slot }) => {
+                    const override = imageOverrides[placement.id];
+                    const universalApplies = universalScope === "all" || universalScope === placement.category;
+                    const hasUniversalImage = Boolean(image && universalApplies);
+                    return (
+                      <PreviewCard
+                        key={placement.id}
+                        placement={placement}
+                        gridSlot={slot}
+                        imageUrl={override?.url ?? (universalApplies ? image?.url ?? null : null)}
+                        hasUniversalImage={hasUniversalImage}
+                        hasOverride={Boolean(override)}
+                        onSelectImage={(file) => loadOverrideImage(placement.id, file)}
+                        onUseUniversal={() => removeOverride(placement.id)}
+                      />
+                    );
+                  })}
+                </div>
+              </section>
+            );
+          })}
         </div>
       </section>
 
-      <footer className="mt-16 bg-[var(--pp-surface)] px-5 py-10 text-sm text-[var(--pp-text-muted)] sm:px-8 lg:px-12">
-        <div className="mx-auto flex max-w-[1136px] flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><strong className="font-display text-[var(--pp-text)]">Pixel-Preview</strong><span className="tech-label text-[var(--pp-text-muted)]">Created by Shimul</span></div>
+      <footer className="border-t border-[var(--pp-dark-line)] bg-[var(--pp-ink)] px-5 py-12 text-sm text-[var(--pp-dark-muted)] sm:px-8">
+        <div className="mx-auto flex max-w-[1240px] flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><strong className="font-display text-xl font-medium text-white">Pixel-Preview</strong><span className="tech-label">Created by Shimul</span></div>
       </footer>
     </main>
   );

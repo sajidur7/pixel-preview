@@ -4,6 +4,7 @@ import { getAspectRatio } from "@/lib/platforms";
 
 type PreviewCardProps = {
   placement: Placement;
+  gridSlot: number;
   imageUrl: string | null;
   hasUniversalImage: boolean;
   hasOverride: boolean;
@@ -11,7 +12,7 @@ type PreviewCardProps = {
   onUseUniversal: () => void;
 };
 
-export function PreviewCard({ placement, imageUrl, hasUniversalImage, hasOverride, onSelectImage, onUseUniversal }: PreviewCardProps) {
+export function PreviewCard({ placement, gridSlot, imageUrl, hasUniversalImage, hasOverride, onSelectImage, onUseUniversal }: PreviewCardProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const isProfile = placement.category === "profile";
   const isStory = placement.category === "story";
@@ -22,10 +23,10 @@ export function PreviewCard({ placement, imageUrl, hasUniversalImage, hasOverrid
   };
 
   return (
-    <article className={`flex min-w-0 flex-col gap-4 ${isProfile ? "items-center text-center" : ""}`}>
+    <article data-grid-slot={gridSlot} className={`preview-card flex min-w-0 flex-col gap-4 ${isProfile ? "items-center text-center" : ""}`}>
       <input ref={inputRef} type="file" className="sr-only" accept="image/jpeg,image/png,image/webp" aria-label={`Choose a custom image for ${placement.label}`} onChange={onChange} />
       <div
-        className={`preview-shadow group relative flex w-full items-center justify-center overflow-hidden bg-[var(--pp-surface)] ${isProfile ? "mx-auto aspect-square max-w-52 rounded-full" : "rounded-[var(--pp-radius-md)]"}`}
+        className={`preview-shadow group relative flex w-full items-center justify-center overflow-hidden bg-[var(--pp-surface)] ${isProfile ? "mx-auto aspect-square max-w-52 rounded-full" : ""}`}
         style={!isProfile ? { aspectRatio: `${placement.width} / ${placement.height}`, maxHeight: isStory ? 430 : 320 } : undefined}
       >
         {imageUrl ? (
