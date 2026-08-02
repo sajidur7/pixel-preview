@@ -38,9 +38,8 @@ export function PreviewCard({ placement, imageUrl, hasUniversalImage, hasOverrid
             </span>
           </>
         ) : (
-          <button type="button" onClick={openPicker} className="focus-ring flex h-full w-full cursor-pointer flex-col items-center justify-center gap-3 bg-[var(--pp-surface)] px-5 text-center text-[var(--pp-text-muted)] transition hover:bg-[#f2f8fc] hover:text-[var(--pp-text)]" aria-label={`Add an image for ${placement.label}`}>
-            <span className="grid size-10 place-items-center rounded-full border border-[var(--pp-line-strong)] bg-white text-lg text-[var(--pp-blue-bright)]">+</span>
-            <span className="tech-label">Add image</span>
+          <button type="button" onClick={openPicker} className="focus-ring flex h-full min-h-9 w-full cursor-pointer items-center justify-center bg-[var(--pp-surface)] px-2 text-center transition hover:bg-[#f2f8fc]" aria-label={`Add an image for ${placement.label}`}>
+            <span className="whitespace-nowrap text-xs font-bold uppercase tracking-[0.12em] text-[var(--pp-blue-bright)]">+ Add image</span>
           </button>
         )}
       </div>
