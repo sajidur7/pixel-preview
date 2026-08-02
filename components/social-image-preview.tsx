@@ -121,24 +121,16 @@ export function SocialImagePreview() {
 
   return (
     <main className="app-shell min-h-screen text-[var(--pp-text)]">
-      <aside className="app-sidebar" aria-label="Workspace navigation">
-        <div className="sidebar-brand"><strong>Pixel-Preview</strong></div>
-        <nav className="sidebar-nav">
-          <a href="#top" className="is-active"><span aria-hidden="true">⌂</span>Overview</a>
-          <a href="#workspace"><span aria-hidden="true">↑</span>Universal source</a>
-          <a href="#previews"><span aria-hidden="true">▦</span>Preview matrix</a>
-        </nav>
-        <div className="sidebar-details">
-          <p className="tech-label">Workspace</p>
-          <dl><div><dt>Platforms</dt><dd>11</dd></div><div><dt>Formats</dt><dd>32</dd></div><div><dt>Processing</dt><dd>Local</dd></div></dl>
-        </div>
-        <p className="sidebar-credit">Created by Shimul</p>
-      </aside>
-
       <div className="workspace-shell">
+        <nav className="site-nav" aria-label="Primary navigation">
+          <a href="#top" className="site-wordmark">Pixel-Preview</a>
+          <div className="site-nav-links"><a href="#workspace">Upload image</a><a href="#previews">Preview formats</a></div>
+          <a href="#workspace" className="nav-action">Get started</a>
+        </nav>
+
         <section id="top" className="dashboard-hero">
           <div className="hero-copy">
-            <span className="hero-badge"><i aria-hidden="true" />11 platforms · 32 formats</span>
+            <span className="hero-badge">11 platforms · 32 formats</span>
             <h1>Perfect crops,<br /><span>before you post.</span></h1>
             <p>Upload once, inspect every social placement, and customize only the frames that need a different image.</p>
             <a href="#workspace" className="primary-action">Choose an image <span aria-hidden="true">→</span></a>
@@ -204,7 +196,7 @@ export function SocialImagePreview() {
           </div>
         </section>
 
-        <footer className="workspace-footer"><strong>Pixel-Preview</strong><span>Private · Local · Fast</span></footer>
+        <footer className="workspace-footer"><strong>Pixel-Preview</strong><span>Created by Shimul</span></footer>
       </div>
     </main>
   );
