@@ -4,7 +4,6 @@ import { getAspectRatio } from "@/lib/platforms";
 
 type PreviewCardProps = {
   placement: Placement;
-  gridSlot: number;
   imageUrl: string | null;
   hasUniversalImage: boolean;
   hasOverride: boolean;
@@ -12,7 +11,7 @@ type PreviewCardProps = {
   onUseUniversal: () => void;
 };
 
-export function PreviewCard({ placement, gridSlot, imageUrl, hasUniversalImage, hasOverride, onSelectImage, onUseUniversal }: PreviewCardProps) {
+export function PreviewCard({ placement, imageUrl, hasUniversalImage, hasOverride, onSelectImage, onUseUniversal }: PreviewCardProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const isProfile = placement.category === "profile";
   const isStory = placement.category === "story";
@@ -23,10 +22,10 @@ export function PreviewCard({ placement, gridSlot, imageUrl, hasUniversalImage, 
   };
 
   return (
-    <article data-grid-slot={gridSlot} className="preview-card flex min-w-0 flex-col gap-4">
+    <article className={`flex min-w-0 flex-col gap-4 ${isProfile ? "items-center text-center" : ""}`}>
       <input ref={inputRef} type="file" className="sr-only" accept="image/jpeg,image/png,image/webp" aria-label={`Choose a custom image for ${placement.label}`} onChange={onChange} />
       <div
-        className={`preview-shadow group relative flex w-full items-center justify-center overflow-hidden bg-[var(--pp-surface)] ${isProfile ? "mx-auto aspect-square max-w-44 rounded-full" : ""}`}
+        className={`preview-shadow group relative flex w-full items-center justify-center overflow-hidden bg-[var(--pp-surface)] ${isProfile ? "mx-auto aspect-square max-w-52 rounded-full" : "rounded-[var(--pp-radius-md)]"}`}
         style={!isProfile ? { aspectRatio: `${placement.width} / ${placement.height}`, maxHeight: isStory ? 430 : 320 } : undefined}
       >
         {imageUrl ? (
@@ -39,20 +38,21 @@ export function PreviewCard({ placement, gridSlot, imageUrl, hasUniversalImage, 
             </span>
           </>
         ) : (
-          <button type="button" onClick={openPicker} className="empty-preview-action focus-ring flex h-full w-full cursor-pointer items-center justify-center px-3 text-center transition" aria-label={`Add an image for ${placement.label}`}>
-            <span>+ Add image</span>
+          <button type="button" onClick={openPicker} className="focus-ring flex h-full w-full cursor-pointer flex-col items-center justify-center gap-3 bg-[var(--pp-surface)] px-5 text-center text-[var(--pp-text-muted)] transition hover:bg-[#f2f8fc] hover:text-[var(--pp-text)]" aria-label={`Add an image for ${placement.label}`}>
+            <span className="grid size-10 place-items-center rounded-full border border-[var(--pp-line-strong)] bg-white text-lg text-[var(--pp-blue-bright)]">+</span>
+            <span className="tech-label">Add image</span>
           </button>
         )}
       </div>
-      <div>
-        <div className="flex items-start justify-between gap-3">
-          <div>
+      <div className={isProfile ? "flex w-52 flex-col items-center text-center" : ""}>
+        <div className={isProfile ? "grid w-full justify-items-center gap-3 text-center" : "flex items-start justify-between gap-3"}>
+          <div className={isProfile ? "w-full text-center" : ""}>
             <h3 className="font-display text-[0.95rem] font-semibold tracking-[-0.02em] text-[var(--pp-text)]">{placement.label}</h3>
             <p className="mt-1 font-mono text-[0.72rem] tracking-[0.02em] text-[var(--pp-text-muted)]">
               {placement.width} × {placement.height} PX / {getAspectRatio(placement.width, placement.height)}
             </p>
           </div>
-          <button type="button" onClick={openPicker} className="focus-ring tech-label shrink-0 text-[var(--pp-blue-bright)] transition hover:text-[var(--pp-text)]">
+          <button type="button" onClick={openPicker} className={`focus-ring tech-label shrink-0 text-[var(--pp-blue-bright)] transition hover:text-[var(--pp-text)] ${isProfile ? "mx-auto" : ""}`}>
             {hasOverride ? "Replace" : imageUrl ? "Customize" : "Choose"}
           </button>
         </div>
