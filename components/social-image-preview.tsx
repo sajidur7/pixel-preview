@@ -122,7 +122,7 @@ export function SocialImagePreview() {
   return (
     <main className="app-shell min-h-screen text-[var(--pp-text)]">
       <aside className="app-sidebar" aria-label="Workspace navigation">
-        <div className="sidebar-brand"><span className="brand-mark" aria-hidden="true">P</span><strong>Pixel-Preview</strong></div>
+        <div className="sidebar-brand"><strong>Pixel-Preview</strong></div>
         <nav className="sidebar-nav">
           <a href="#top" className="is-active"><span aria-hidden="true">⌂</span>Overview</a>
           <a href="#workspace"><span aria-hidden="true">↑</span>Universal source</a>
@@ -136,11 +136,6 @@ export function SocialImagePreview() {
       </aside>
 
       <div className="workspace-shell">
-        <header className="workspace-header">
-          <div><p className="workspace-kicker">Social image workspace</p><p className="workspace-path">Home <span>/</span> Preview dashboard</p></div>
-          <div className="privacy-status"><span aria-hidden="true" />Private in your browser</div>
-        </header>
-
         <section id="top" className="dashboard-hero">
           <div className="hero-copy">
             <span className="hero-badge"><i aria-hidden="true" />9 platforms · 27 formats</span>
